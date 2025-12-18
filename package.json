@@ -1,0 +1,97 @@
+{
+	"name": "eta-templates",
+	"displayName": "Eta Templates",
+	"description": "Syntax highlighting and formatting for Eta templates",
+	"version": "1.0.15",
+	"publisher": "reepolee",
+	"license": "MIT",
+	"icon": "icon.png",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/reepolee/eta-templates"
+	},
+	"bugs": {
+		"url": "https://github.com/reepolee/eta-templates/issues"
+	},
+	"homepage": "https://github.com/reepolee/eta-templates#readme",
+	"engines": {
+		"vscode": "^1.60.0"
+	},
+	"categories": [
+		"Programming Languages",
+		"Formatters"
+	],
+	"activationEvents": [
+		"onLanguage:eta"
+	],
+	"main": "./dist/extension.js",
+	"contributes": {
+		"languages": [
+			{
+				"id": "eta",
+				"aliases": [
+					"Eta",
+					"eta"
+				],
+				"extensions": [
+					".eta"
+				],
+				"configuration": "./language-configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "eta",
+				"scopeName": "text.html.eta",
+				"path": "./syntaxes/eta.tmLanguage.json"
+			}
+		],
+		"commands": [
+			{
+				"command": "eta.format",
+				"title": "Format Eta Template"
+			}
+		],
+		"configuration": {
+			"title": "Eta Templates",
+			"properties": {
+				"eta.indentationType": {
+					"type": "string",
+					"enum": [
+						"spaces",
+						"tabs"
+					],
+					"default": "spaces",
+					"description": "Use spaces or tabs for indentation"
+				},
+				"eta.tabSize": {
+					"type": "number",
+					"default": 2,
+					"description": "Number of spaces for indentation (when using spaces)"
+				}
+			}
+		}
+	},
+	"scripts": {
+		"compile": "npm run check-types && node esbuild.js",
+		"check-types": "tsc --noEmit",
+		"watch": "npm-run-all -p watch:*",
+		"watch:esbuild": "node esbuild.js --watch",
+		"watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+		"vscode:prepublish": "npm run package",
+		"package": "npm run check-types && node esbuild.js --production",
+		"bundle": "git push && pnpm version patch && git push &&  npm run package && vsce package --no-update-package-json"
+	},
+	"devDependencies": {
+		"@types/js-beautify": "^1.14.11",
+		"@types/node": "^16.0.0",
+		"@types/vscode": "^1.60.0",
+		"@vscode/vsce": "^3.1.1",
+		"esbuild": "^0.27.2",
+		"npm-run-all": "^4.1.5",
+		"typescript": "^4.5.0"
+	},
+	"dependencies": {
+		"js-beautify": "^1.14.11"
+	}
+}
